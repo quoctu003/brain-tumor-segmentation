@@ -1,0 +1,12 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+sqlalchemy>=2.0,<3
+python-multipart>=0.0.20,<1
+python-dotenv>=1.0,<2
+numpy>=2.0,<3
+scipy>=1.14,<2
+nibabel>=5.3,<6
+torch>=2.6,<3
+monai>=1.5,<1.7
+reportlab>=4.2,<5
+psycopg[binary]>=3.2,<4

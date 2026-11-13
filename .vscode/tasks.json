@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "BrainTumor: Mở ứng dụng",
+      "type": "shell",
+      "command": "${workspaceFolder}\\START_BRAINTUMOR.cmd",
+      "problemMatcher": []
+    },
+    {
+      "label": "BrainTumor: Kiểm thử backend",
+      "type": "process",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/scripts/test.ps1"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "BrainTumor: Build frontend",
+      "type": "npm",
+      "script": "build",
+      "path": "frontend/",
+      "group": "build",
+      "problemMatcher": "$tsc"
+    }
+  ]
+}

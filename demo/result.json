@@ -1,0 +1,25 @@
+{
+  "volumes_cm3": {
+    "wt": 120.913,
+    "tc": 20.14,
+    "et": 12.293
+  },
+  "seconds": 48.36,
+  "selected_epoch": 45,
+  "training_epochs": 50,
+  "model_state_id": "2f4bbd0daa274d51829e6bffb30c36e4",
+  "weights_sha256": "dbba1a212c9c8e0443d3c7fd763e22f9eb3ec80ce7fb4451c231ff0bebe0892f",
+  "labels": {
+    "0": "background",
+    "1": "NCR",
+    "2": "ED",
+    "3": "ET"
+  },
+  "metric_note": "No case Dice without ground-truth segmentation.",
+  "provenance": {
+    "kind": "recorded_inference",
+    "source_case": "BraTS-GLI-00312-000",
+    "recorded_at": "2026-11-13T09:02:53.858649Z",
+    "note": "Previously recorded real-checkpoint prediction; opening this demo does not execute inference."
+  }
+}

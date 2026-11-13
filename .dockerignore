@@ -1,0 +1,14 @@
+.venv
+.codex-backups
+releases
+frontend/test-results
+frontend/playwright-report
+frontend/node_modules
+frontend/dist
+storage
+data/mri_cases
+models
+**/__pycache__
+**/.pytest_cache
+.env
+backend/.env

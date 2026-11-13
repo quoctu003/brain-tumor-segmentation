@@ -1,0 +1,18 @@
+{
+  "format_version": 1,
+  "id": "brats-gli-recorded-v1",
+  "title": "BraTS GLI / 00312",
+  "source": "BraTS2023 GLI",
+  "source_case": "BraTS-GLI-00312-000",
+  "kind": "recorded_inference",
+  "recorded_at": "2026-11-13T09:02:53.858649Z",
+  "weights_sha256": "dbba1a212c9c8e0443d3c7fd763e22f9eb3ec80ce7fb4451c231ff0bebe0892f",
+  "files": {
+    "t1n.nii.gz": "aafba45c79ac64ef9c0cda6db6ed4050ad859a8cbeaecec1ede2b3bf47d7c027",
+    "t1c.nii.gz": "c4a432ade9e9166a19ac78beaeb5bedefe6a0ac1378b81fac820e0e0adcd051c",
+    "t2w.nii.gz": "d48bb315880316ee04ecc32e96aeedaa4e55071607fe7e7a69f5bd72f286d943",
+    "t2f.nii.gz": "eab18a35dbfedf979327bd036eeea9fd9944a7f46b01a3efbcdcad8a4269888c",
+    "segmentation.nii.gz": "6add185cf9be3f97640f8f4d98f1ae9eed5c611382146482811c9f38be8f8aa8",
+    "result.json": "16976eee12bc1497ce3db371ad39d2136f883bb4669a085faa94b4f31ab7507d"
+  }
+}

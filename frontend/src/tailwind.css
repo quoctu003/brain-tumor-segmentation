@@ -1,0 +1,4 @@
+/* Add utilities without changing the established MRI workspace base styles. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(tw);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(tw);
