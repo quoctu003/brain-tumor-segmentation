@@ -49,143 +49,6 @@
   z-index: 1;
   margin-top: 10px;
 }
-.demo-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: 32px;
-  align-items: center;
-  padding: 30px;
-  margin: 0 0 28px;
-  background: linear-gradient(125deg, #1b2e30, #182126 54%, #151c23);
-  border: 1px solid #7bdfc52b;
-  border-radius: 14px;
-  overflow: hidden;
-}
-.demo-kicker {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 10px;
-  letter-spacing: 1.4px;
-  color: #9ad7c7;
-  font-weight: 600;
-  flex-wrap: wrap;
-}
-.demo-tag {
-  font-size: 8px;
-  letter-spacing: 1px;
-  border: 1px solid #8fd9be33;
-  background: #8fd9be0a;
-  color: #9fdac6;
-  border-radius: 4px;
-  padding: 4px 6px;
-}
-.demo-copy h2 {
-  font-size: 25px;
-  line-height: 1.55;
-  letter-spacing: -0.6px;
-  margin: 16px 0 12px;
-}
-.demo-copy h2 span {
-  color: #a0b7b9;
-  font-weight: 500;
-}
-.demo-copy > p {
-  font-size: 12px;
-  color: #a1b2bb;
-  line-height: 1.9;
-  margin: 0 0 17px;
-  max-width: 490px;
-}
-.demo-benefits {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 18px 0 23px;
-  font-size: 10px;
-  color: #b4cec5;
-}
-.demo-benefits span {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-.demo-actions {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.demo-actions .primary-button {
-  min-width: 145px;
-  font-size: 12px;
-}
-.demo-copy .demo-disclosure {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  font-size: 10px;
-  color: #82a69b;
-  margin: 18px 0 0;
-}
-.demo-disclosure svg {
-  margin-top: 3px;
-}
-.demo-copy .demo-error {
-  color: #f1b4b4;
-  font-size: 11px;
-  margin-top: 15px;
-}
-.demo-preview {
-  min-width: 0;
-  border: 1px solid #93cbb722;
-  border-radius: 10px;
-  background: #10171d;
-  overflow: hidden;
-  box-shadow: 0 12px 32px #0002;
-}
-.demo-preview img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 3/1.18;
-  object-fit: contain;
-}
-.preview-label,
-.preview-caption {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 15px;
-  color: #78928f;
-  font-size: 8px;
-  letter-spacing: 0.8px;
-}
-.preview-label {
-  border-bottom: 1px solid #ffffff08;
-}
-.preview-label > span:first-child {
-  color: #bdd8ce;
-  margin-right: auto;
-}
-.preview-dot {
-  height: 5px;
-  width: 5px;
-  background: #79bca8;
-  border-radius: 50%;
-}
-.preview-caption {
-  justify-content: space-between;
-  letter-spacing: 0;
-  font-size: 9px;
-  border-top: 1px solid #ffffff08;
-  flex-wrap: wrap;
-}
-.preview-caption span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
 .panel {
   background: var(--panel);
   border: 1px solid #ffffff0d;
@@ -417,118 +280,6 @@
   text-align: right;
   margin-top: 16px;
 }
-.demo-study-banner {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  background: #84cdb80b;
-  border: 1px solid #84cdb821;
-  border-radius: 8px;
-  padding: 16px 18px;
-  margin-bottom: 16px;
-  color: #93d3be;
-}
-.demo-study-banner > div {
-  flex: 1;
-}
-.demo-study-banner strong {
-  font-size: 10px;
-  letter-spacing: 0.7px;
-  display: block;
-  margin-bottom: 6px;
-}
-.demo-study-banner span {
-  color: #8ca89e;
-  font-size: 11px;
-  line-height: 1.8;
-}
-.demo-study-banner .text-button {
-  white-space: nowrap;
-}
-.demo-walkthrough {
-  border: 1px solid #7fd8c02c;
-  border-radius: 10px;
-  padding: 19px 22px;
-  background: linear-gradient(115deg, #192c2b, #182128);
-  margin-bottom: 20px;
-}
-.walkthrough-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 13px;
-}
-.walkthrough-steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  border-bottom: 1px solid #ffffff0a;
-  padding-bottom: 18px;
-}
-.walkthrough-steps button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-align: left;
-  padding: 8px;
-  background: none;
-  color: #748f88;
-  font-size: 11px !important;
-  line-height: 1.5;
-  border-radius: 5px;
-}
-.walkthrough-steps button > span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 24px;
-  width: 24px;
-  border: 1px solid #ffffff1a;
-  border-radius: 50%;
-  font-size: 10px;
-  flex-shrink: 0;
-}
-.walkthrough-steps button.current {
-  color: #b3e7d5;
-  background: #77cdb10b;
-}
-.walkthrough-steps button.current > span {
-  background: #85d7bc;
-  color: #193c30;
-  border-color: transparent;
-}
-.walkthrough-steps button.done {
-  color: #8cc5b1;
-}
-.walkthrough-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  padding-top: 18px;
-}
-.walkthrough-content h2 {
-  font-size: 16px;
-  line-height: 1.65;
-}
-.walkthrough-content p {
-  color: #91a9a1;
-  font-size: 11px;
-  line-height: 1.95;
-  margin: 8px 0 0;
-  max-width: 760px;
-}
-.walkthrough-actions {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  max-width: 250px;
-}
-.walkthrough-actions .primary-button {
-  font-size: 11px;
-}
 .history-bar {
   display: flex;
   align-items: center;
@@ -613,19 +364,6 @@
   line-height: 1.8;
 }
 @media (max-width: 1190px) {
-  .demo-hero {
-    gap: 22px;
-    padding: 24px;
-  }
-  .demo-copy h2 {
-    font-size: 22px;
-  }
-  .demo-preview img {
-    aspect-ratio: 3/1.7;
-  }
-  .demo-actions {
-    gap: 13px;
-  }
   .guide-step {
     padding: 19px;
   }
@@ -653,14 +391,6 @@
   .guide-steps {
     gap: 12px;
   }
-  .walkthrough-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  .walkthrough-actions {
-    max-width: none;
-  }
   .guide-intro {
     align-items: flex-start;
     flex-direction: column;
@@ -668,16 +398,6 @@
   }
 }
 @media (max-width: 760px) {
-  .demo-hero {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .demo-preview img {
-    aspect-ratio: 3/1;
-  }
-  .demo-copy > p {
-    max-width: none;
-  }
   .guide-steps {
     grid-template-columns: 1fr;
   }
@@ -734,32 +454,6 @@
     width: 30px;
     height: 30px;
   }
-  .demo-hero {
-    padding: 22px 18px;
-    margin-bottom: 22px;
-  }
-  .demo-copy h2 {
-    font-size: 23px;
-  }
-  .demo-copy > p {
-    font-size: 12px;
-  }
-  .demo-benefits {
-    font-size: 10px;
-    gap: 10px;
-  }
-  .demo-disclosure {
-    line-height: 1.8;
-  }
-  .preview-label {
-    font-size: 7px;
-  }
-  .preview-caption {
-    font-size: 8px;
-  }
-  .demo-actions .text-button {
-    font-size: 11px;
-  }
   .guide-intro,
   .documentation {
     padding: 21px;
@@ -792,33 +486,6 @@
   .service-pill {
     font-size: 7px;
     padding: 3px 5px;
-  }
-  .demo-study-banner {
-    padding: 14px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  .demo-study-banner > div {
-    min-width: 180px;
-  }
-  .demo-study-banner > .text-button {
-    margin-left: 27px;
-  }
-  .demo-walkthrough {
-    padding: 16px 14px;
-  }
-  .walkthrough-steps {
-    gap: 4px;
-  }
-  .walkthrough-steps button {
-    font-size: 9px !important;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 6px;
-    gap: 6px;
-  }
-  .walkthrough-content h2 {
-    font-size: 15px;
   }
   .history-bar select {
     width: 100%;

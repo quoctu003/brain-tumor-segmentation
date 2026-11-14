@@ -1,5 +1,16 @@
 # Changelog
 
+## Chuẩn bị chia sẻ GitHub — 2026-11-14
+
+- README mới cho máy mới, liên kết Drive và hướng dẫn dataset/checkpoint.
+- Launcher dùng `.venv` riêng, kiểm phiên bản dependency và cài PyTorch CPU mặc định.
+- Chốt dependency trực tiếp; Python 3.12–3.13; tách PostgreSQL thành lựa chọn riêng.
+- Import bundle hỗ trợ tên weights cũ/mới và staging có checksum.
+- Bỏ component/CSS/preview demo không còn được dùng; giữ API tương thích.
+- Browser tests dùng MRI tổng hợp; CI thêm Windows và kiểm thử trình duyệt.
+- Backend 40 test, frontend 11 test và 2 browser test đạt trong lần rà soát.
+- Chi tiết và giới hạn: `docs/REVIEW-2026-11-14.md`.
+
 ## Rà soát sau bàn giao — 2026-11-13
 
 - Sửa `--prepare-only` để chuẩn bị/build độc lập với server đang chạy; khóa riêng cho frontend build.

@@ -1,143 +1,146 @@
 # BrainTumor AI
 
-Mã nguồn cho dự án **brain-tumor-segmentation**. Repository không chứa dataset MRI, checkpoint, metadata/evaluation model hoặc database cá nhân. Sau khi clone, chuẩn bị Python/Node theo hướng dẫn dưới đây và dùng `scripts/prepare_model.py --bundle <thư-mục-bundle-V2>` để nhập model riêng. Không có model thì giao diện/API vẫn mở được, chức năng chạy AI sẽ báo chưa sẵn sàng.
+[![CI](https://github.com/quoctu003/brain-tumor-segmentation/actions/workflows/ci.yml/badge.svg)](https://github.com/quoctu003/brain-tumor-segmentation/actions/workflows/ci.yml)
 
-Notebook huấn luyện được chia sẻ tại [`notebooks/training.ipynb`](notebooks/training.ipynb), đã bỏ output và trạng thái thực thi. Kiểm thử backend dùng ảnh tổng hợp được đánh dấu rõ, không cần dataset riêng. Browser/inference tests cần chuẩn bị dữ liệu và model có quyền sử dụng tại máy chạy kiểm thử.
+Ứng dụng nghiên cứu phân đoạn u não trên MRI đa chuỗi xung: tải bốn ảnh NIfTI, xem MRI ba mặt phẳng/3D, chạy 3D U-Net và xuất mask, PDF, JSON hoặc ZIP kết quả.
 
-**Khởi động:** mở [`START_BRAINTUMOR.cmd`](START_BRAINTUMOR.cmd), bấm **Thêm ca MRI** rồi tự chọn bốn ảnh. Không cần mở riêng backend/frontend. Xem [hướng dẫn chọn file](docs/07-THEM-CA-MRI.md).
+**React 19 · TypeScript · Vite · Tailwind CSS · NiiVue · FastAPI · PyTorch · MONAI · SQLite / PostgreSQL**
 
-Lịch sử rà soát: [thay đổi và kết quả kiểm thử nền tảng](docs/04-RA-SOAT-VA-CAI-THIEN.md). Các bước mở hai terminal bên dưới dành cho chế độ phát triển.
+![Giao diện xem MRI](docs/qa/manual-viewer.png)
 
-Ứng dụng nghiên cứu phân đoạn u não MRI: **React + Vite + Tailwind CSS · Python + FastAPI · PyTorch + MONAI · PostgreSQL + SQLAlchemy · NiiVue · NiBabel + NumPy**.
+## Dataset và checkpoint đã train
 
-Chuẩn công nghệ và luồng dữ liệu: [kiến trúc công nghệ](docs/00-KIEN-TRUC-CONG-NGHE.md). Dùng `START_POSTGRES_DEMO.cmd` cho PostgreSQL qua Docker, hoặc `START_BRAINTUMOR.cmd` để chạy local với SQLite.
+**[Google Drive: dataset và checkpoint của dự án](https://drive.google.com/drive/folders/1DiVBV9V008vfxkIfmepf5g5WlCrqBVpV?usp=drive_link)**
 
-Xem [báo cáo rà soát hiện tại](docs/08-KIEM-TRA-TOAN-DU-AN.md). [Ảnh và kết quả bàn giao 1.1 ban đầu](docs/06-KIEM-THU-VA-BAN-GIAO-1.1.md) được giữ làm lịch sử; một số màn hình trong đó đã thay đổi.
+Dữ liệu và trọng số không nằm trong Git để giữ repository nhẹ. Tải phần cần dùng từ Drive và giải nén trước khi import; không cần tải toàn bộ dataset chỉ để mở ứng dụng. Nếu Drive yêu cầu đăng nhập hoặc báo thiếu quyền, cần dùng tài khoản được chủ thư mục cấp quyền. Liên kết do tác giả cung cấp; nội dung và quyền tải công khai chưa được xác minh trong lần rà soát này.
 
-Mã nguồn được tạo riêng, không sửa hoặc xoá notebook, dataset và checkpoint trong thư mục cha.
+- **Chạy AI:** cần inference bundle gồm `model_metadata.json` và `unet_v1_demo.pth` (tên export cũ) hoặc `unet_v2_best.pth`. `evaluation.json` là tùy chọn.
+- **Thử một ca:** cần đủ `t1n`, `t1c`, `t2w`, `t2f` của cùng ca, dạng `.nii` hoặc `.nii.gz`.
+- **Train lại:** xem [notebook và hướng dẫn](notebooks/README.md). Checkpoint resume/best/last phục vụ train không mặc nhiên thay thế được inference bundle.
 
-## Bắt đầu từ bước 1
+Xem [hướng dẫn dataset/checkpoint](docs/DATA-AND-MODELS.md) để biết cấu trúc file, checksum và cách khắc phục lỗi.
 
-Xem [hướng dẫn từng bước và từng file](docs/01-KHOI-TAO-VA-TUNG-FILE.md). Kiến trúc và hợp đồng API ở [docs/02-KIEN-TRUC-VA-API.md](docs/02-KIEN-TRUC-VA-API.md).
+## Chạy nhanh trên máy mới
 
-Ảnh ứng dụng và kết quả kiểm thử thực tế: [docs/03-KIEM-THU.md](docs/03-KIEM-THU.md).
+Yêu cầu **Python 3.12 hoặc 3.13**, **Node.js 22.12+ hoặc 24 LTS**, trình duyệt hỗ trợ WebGL2 và Internet cho lần cài đầu. Khuyến nghị Python 3.12 + Node.js 24. CPU chạy được; không bắt buộc có GPU hay Docker. Đặt dự án trên ổ local, tránh thư mục đồng bộ Drive/OneDrive.
 
-### 1. Chuẩn bị thư mục và môi trường
+```bash
+git clone https://github.com/quoctu003/brain-tumor-segmentation.git
+cd brain-tumor-segmentation
+```
 
-Khuyến nghị chép **BrainTumorAI/** vào ổ SSD local trước khi cài môi trường. Google Drive có thể gây lỗi khi tạo `node_modules`, `.venv` và khóa SQLite.
+Hoặc chọn **Code → Download ZIP** trên GitHub rồi giải nén.
 
-Yêu cầu: Python 3.11–3.13, Node.js 22.12+ hoặc 24, trình duyệt hỗ trợ WebGL2. GPU CUDA là tuỳ chọn. Dùng Python 3.12 cho Docker.
+**Windows:** mở `START_BRAINTUMOR.cmd`. **macOS / Linux:** chạy:
 
-Mở PowerShell trong `BrainTumorAI/`:
+```bash
+python3 scripts/launch.py
+```
 
-```powershell
+Launcher tạo `.venv` riêng, cài dependency với PyTorch CPU, chạy `npm ci`, build giao diện rồi mở **http://127.0.0.1:8080**. Lần đầu có thể mất vài phút và cần tải các gói lớn. Giữ terminal đang chạy; nhấn **Ctrl+C** để dừng. Giao diện vẫn mở được khi chưa có model; chức năng AI sẵn sàng sau bước import bên dưới.
+
+### Import model
+
+Tải inference bundle từ Drive, giải nén, rồi chạy tại gốc dự án:
+
+```bash
+python scripts/prepare_model.py --bundle "DUONG_DAN_DEN_THU_MUC_BUNDLE"
+```
+
+Script chỉ dùng thư viện chuẩn Python, kiểm SHA-256 trước/sau khi chép và giữ nguyên nguồn. Trên macOS/Linux, dùng `python3` nếu máy không có lệnh `python`. Thư mục truyền vào phải chứa trực tiếp metadata và weights. Sau đó **dừng và mở lại ứng dụng** để nạp model.
+
+```text
+models/
+  unet_v2_best.pth
+  model_metadata.json
+  evaluation.json          # tùy chọn
+```
+
+### Phân tích MRI
+
+1. Bấm **Thêm ca MRI**, nhập tên ca ẩn danh.
+2. Chọn T1 Native (`t1n`), T1 Contrast (`t1c`), T2 Weighted (`t2w`), T2 FLAIR (`t2f`).
+3. Mở ca và bấm **Phân đoạn với AI**.
+4. Xem ba mặt phẳng/3D, đổi chuỗi xung, điều chỉnh lớp phủ và tải kết quả.
+
+Ảnh phải cùng shape/affine và đã tiền xử lý, căn chỉnh theo protocol BraTS. Ứng dụng không thực hiện registration, skull stripping, crop hay resample. Shape/affine khớp không xác nhận được người dùng đã chọn đúng bệnh nhân/chuỗi xung. [Hướng dẫn chọn file](docs/07-THEM-CA-MRI.md).
+
+## Model và kết quả huấn luyện
+
+| Thuộc tính | Giá trị |
+|---|---|
+| Thí nghiệm | `unet_v2_resumable_001`, 50 epoch |
+| Model sử dụng | MONAI 3D U-Net; 4 kênh vào, 4 lớp ra; best epoch 45 |
+| Nhãn | 0: nền; 1: NCR/NET; 2: phù nề; 3: u tăng quang |
+| Validation | 183 ca; Dice mean **0.875809** |
+| Held-out test | 194 ca; Dice mean **0.893744** |
+| Test WT / TC / ET | **0.920528 / 0.908923 / 0.851781** |
+| SHA-256 weights | `dbba1a212c9c8e0443d3c7fd763e22f9eb3ec80ce7fb4451c231ff0bebe0892f` |
+
+Metric lấy từ metadata/evaluation của lần train, **không phải đánh giá lại toàn bộ test set trong lần rà soát phần mềm**. Smoke test với checkpoint thật xác minh load/forward/export, không đo độ chính xác. WT/TC/ET là các vùng chồng lấp, không cộng thể tích ba vùng. Ứng dụng không báo Dice cho ca tải lên khi không có ground truth.
+
+## Phát triển và kiểm thử
+
+Launcher dùng `.venv` và phiên bản dependency trực tiếp đã chốt trong `backend/requirements.txt`; dependency bắc cầu chưa có lockfile đa nền tảng. Frontend dùng `npm ci` và lockfile. Để chạy backend/frontend riêng:
+
+```bash
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
-Copy-Item backend/.env.example backend/.env
 ```
 
-PyTorch CUDA: chọn bản phù hợp với máy tại https://pytorch.org/get-started/locally/. Bản CPU vẫn chạy được nhưng chậm hơn.
+Kích hoạt môi trường: Windows PowerShell dùng `.\.venv\Scripts\Activate.ps1`; macOS/Linux dùng `source .venv/bin/activate`. Sau đó:
 
-### 2. Kết nối checkpoint đã train
-
-Nếu dự án vẫn nằm cạnh `runs_v2/`:
-
-```powershell
-.\.venv\Scripts\python.exe scripts/prepare_model.py
+```bash
+python -m pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -r backend/requirements-dev.txt
+python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
 ```
 
-Nếu chuyển sang thư mục khác:
+Trong terminal khác:
 
-```powershell
-.\.venv\Scripts\python.exe scripts/prepare_model.py --bundle 'G:\duong-dan\BraTS2023_GLI\runs_v2\unet_v2_resumable_001\demo_bundle'
-```
-
-Script kiểm tra SHA-256 trước và sau khi sao chép, giữ nguyên source. Bản dự án tại workspace đã được import model.
-
-### 3. Chạy backend
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/start-backend.ps1
-```
-
-- API: http://127.0.0.1:8000/api/health
-- Swagger: http://127.0.0.1:8000/docs
-- Script mặc định đặt SQLite và ảnh ca trong `%LOCALAPPDATA%\BrainTumorAI\storage` để tránh khóa file trên Drive.
-- Chỉ chạy **một process API**. Không thêm `--workers 2`: hàng đợi inference thuộc process hiện tại.
-- Có thể chạy thủ công: `cd backend` rồi `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`. Khi đó cấu hình đọc từ `backend/.env`, đường dẫn tương đối tính từ gốc dự án.
-
-### 4. Chạy frontend trong PowerShell thứ hai
-
-```powershell
+```bash
 cd frontend
 npm ci
 npm run dev
 ```
 
-Mở http://127.0.0.1:5173. Vite chuyển `/api` đến backend; không cần hardcode URL cho ảnh MRI.
+Mở **http://127.0.0.1:5173**; API docs tại **http://127.0.0.1:8000/docs**. Tùy chỉnh bằng cách sao chép `backend/.env.example` thành `backend/.env`; đường dẫn tương đối tính từ gốc dự án. Nếu dùng CUDA, cài bản PyTorch 2.13.0 phù hợp GPU vào `.venv` trước khi chạy launcher, theo [hướng dẫn PyTorch](https://pytorch.org/get-started/locally/).
 
-### 5. Phân tích MRI
-
-1. Bấm **Thêm ca MRI**, nhập tên ca ẩn danh.
-2. Chọn đủ T1n, T1c, T2w, T2-FLAIR dạng `.nii` hoặc `.nii.gz`.
-3. Mở ca, bấm **Phân đoạn với AI**.
-4. Xem ba mặt phẳng/3D, đổi modality, bật/tắt lớp phủ và chỉnh opacity.
-5. Tải mask NIfTI, PDF và JSON sau khi hoàn tất.
-
-Ảnh đầu vào phải cùng shape và affine, đã đăng ký theo protocol BraTS. Backend kiểm tra NIfTI, giá trị hữu hạn, tín hiệu, affine và giới hạn kích thước trước khi lưu ca. Không thực hiện skull stripping, registration, crop hay resample. Header không khai báo đơn vị được hiểu là mm theo BraTS và được đánh dấu trong giao diện.
-
-## Checkpoint và kết quả đã đối chiếu
-
-| Nội dung | Giá trị |
-|---|---|
-| Thí nghiệm | `unet_v2_resumable_001` |
-| Checkpoint cuối đã đọc | `unet3d_brats_last (14).pth`, epoch **50**, `complete=True` |
-| Checkpoint đưa vào inference | Bản được chọn tại epoch **45**, không phải trọng số epoch cuối |
-| Mô hình | MONAI 3D U-Net, 4 kênh đầu vào, 4 lớp đầu ra |
-| SHA-256 weights | `dbba1a212c9c8e0443d3c7fd763e22f9eb3ec80ce7fb4451c231ff0bebe0892f` |
-| Validation | 183 ca, Dice mean **0.875809** |
-| Held-out test | 194 ca, Dice mean **0.893744** |
-| Dice WT / TC / ET trên test | **0.920528 / 0.908923 / 0.851781** |
-
-Nguồn số liệu: `model_metadata.json` và `evaluation.json` trong export gốc. Đây là số liệu **đã ghi nhận trong lần train**, chưa được chạy lại toàn bộ trong quá trình xây dựng ứng dụng. Môi trường nguồn dùng Torch `2.14.1+cu130`, MONAI `1.6.1`; môi trường máy này khác phiên bản. Load và smoke test kiểm tra tính chạy được, không chứng minh kết quả số học hoàn toàn giống nguồn.
-
-Tên export gốc `unet_v1_demo.pth` là tên cũ; protocol bên trong xác nhận V2. Không suy luận phiên bản từ tên file.
-
-## Database và lưu trữ
-
-- Local: SQLite, hai bảng `cases` và `jobs`; metadata nằm trong DB, file MRI/mask/PDF nằm trên ổ đĩa.
-- Docker: PostgreSQL 17 + volume lưu file. Chạy `python scripts/prepare_model.py` trước.
-
-```powershell
-# Chọn mật khẩu URL-safe (chữ, số, dấu gạch); không commit vào Git.
-$env:POSTGRES_PASSWORD = 'thay-bang-mat-khau-cua-ban'
-docker compose up --build
-```
-
-Mở http://127.0.0.1:8080. Docker mặc định chạy CPU. PostgreSQL và casefiles dùng named volumes. API và web chỉ bind localhost. Docker cần Docker Desktop; cấu hình này chưa được xác nhận bằng một lần chạy Docker nếu Docker không có trong máy.
-
-## Kiểm tra
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/test.ps1
-.\.venv\Scripts\python.exe scripts/smoke_model.py
+```bash
+python -m pytest backend/tests -q
+python scripts/smoke_model.py       # cần import model thật
 cd frontend
 npm test
 npm run build
 npm run format:check
 ```
 
-Trên hệ điều hành khác, chạy `python -m pytest tests -q` từ `backend/`. Script Windows tạo thư mục test mới trong `%LOCALAPPDATA%/BrainTumorAI-tests` để tránh thư mục temp pytest cũ đang bị khóa.
+Windows có thể dùng `powershell -ExecutionPolicy Bypass -File scripts/test.ps1` để tạo thư mục test riêng. Browser tests: [hướng dẫn kiểm thử](docs/TESTING.md). CI dùng dữ liệu tổng hợp, không cần Drive hay checkpoint riêng.
 
-API tests dùng model giả rõ ràng để kiểm tra vòng đời case/job/artifact, không tạo chỉ số mô hình. `smoke_model.py` chạy **trọng số thật** với input tổng hợp 32³, patch vẫn 96³ theo protocol. Chỉ kiểm tra forward, nhãn và affine đầu ra; không đánh giá độ chính xác trên dữ liệu tổng hợp.
+## Docker và PostgreSQL
 
-## Giới hạn vận hành hiện tại
+Cần Docker Compose v2. Import model trước, sau đó đặt `POSTGRES_PASSWORD` (chữ/số/dấu gạch) trong môi trường hoặc `.env` tại gốc dự án và chạy:
 
-- Bản local một người dùng. Chưa có đăng nhập/phân quyền; không đưa trực tiếp lên mạng công cộng.
-- Một worker inference, hàng đợi có giới hạn. Khi server khởi động lại, job chưa xong được đánh dấu failed để chạy lại, không báo thành công giả.
-- Thanh tiến độ là các giai đoạn xử lý, không phải tỷ lệ số patch đã chạy.
-- Chưa có DICOM/PACS, đánh giá ground truth cho ca tải lên hoặc hiệu chuẩn lâm sàng.
-- Font giao diện tải từ Google Fonts nếu có mạng; có fallback hệ thống. MRI vẫn được xử lý ở backend local.
-- Hệ thống phục vụ nghiên cứu/minh hoạ; kết quả không thay thế chẩn đoán y khoa.
+```bash
+docker compose up --build
+```
 
-Không xoá checkpoint cũ chỉ vì hậu tố `(1)`, `(2)`…: chúng có thể là các trạng thái huấn luyện khác nhau do Drive lưu trùng tên. Dọn các file đó cần đối chiếu nội dung và giữ best/last/recovery riêng.
+Mở **http://127.0.0.1:8080**. Backend dùng CPU; PostgreSQL 17 và file ca được lưu trong named volumes. `docker compose down` dừng dịch vụ và giữ dữ liệu. Cài backend PostgreSQL ngoài Docker bằng `python -m pip install -r backend/requirements-postgres.txt`.
+
+Docker/PostgreSQL và CUDA chưa được chạy kiểm chứng trong môi trường rà soát này.
+
+## Cấu trúc và tài liệu
+
+| Thư mục | Vai trò |
+|---|---|
+| `backend/` | API, kiểm tra MRI, inference, database, PDF và kiểm thử |
+| `frontend/` | Giao diện React/TypeScript, MRI viewer, kiểm thử trình duyệt |
+| `scripts/` | Launcher, import model, smoke test, đóng gói |
+| `models/` | Model cục bộ, chỉ README được Git theo dõi |
+| `notebooks/` | Notebook train đã bỏ output |
+| `docs/` | Kiến trúc, hướng dẫn, bằng chứng kiểm thử |
+
+[Kiến trúc/API](docs/02-KIEN-TRUC-VA-API.md) · [Vận hành](docs/05-DEMO-VA-VAN-HANH.md) · [Rà soát mới nhất](docs/REVIEW-2026-11-14.md) · [Changelog](CHANGELOG.md)
+
+Launcher lưu ca/DB/log tại `%LOCALAPPDATA%/BrainTumorAI` trên Windows hoặc `~/.local/share/BrainTumorAI` trên macOS/Linux; không xóa thư mục này để dọn mã nguồn. Chạy API thủ công mặc định dùng `storage/` trong dự án. Dataset, checkpoint, môi trường, database và file build/cache đều được loại khỏi Git.
+
+Ứng dụng dành cho nghiên cứu local một người dùng, chưa có đăng nhập/phân quyền. Chạy một process API với một worker inference; không thêm nhiều Uvicorn workers. Kết quả không thay thế chẩn đoán y khoa và chưa được xác nhận trên MRI bệnh viện ngoài BraTS.

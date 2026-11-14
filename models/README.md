@@ -6,3 +6,5 @@ Run `python scripts/prepare_model.py` from BrainTumorAI/ to import the verified 
 
 The source export is named `unet_v1_demo.pth` but its protocol is `unet_v2_resumable_001`.
 Weights and dataset files are intentionally excluded from Git. Training optimizer states remain in the original `runs_v2/`.
+
+Dataset/checkpoint: [Project Google Drive](https://drive.google.com/drive/folders/1DiVBV9V008vfxkIfmepf5g5WlCrqBVpV?usp=drive_link). See [download and import instructions](../docs/DATA-AND-MODELS.md).

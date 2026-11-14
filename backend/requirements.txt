@@ -1,12 +1,13 @@
-fastapi>=0.115,<1
-uvicorn[standard]>=0.34,<1
-sqlalchemy>=2.0,<3
-python-multipart>=0.0.20,<1
-python-dotenv>=1.0,<2
-numpy>=2.0,<3
-scipy>=1.14,<2
-nibabel>=5.3,<6
-torch>=2.6,<3
-monai>=1.5,<1.7
-reportlab>=4.2,<5
-psycopg[binary]>=3.2,<4
+# Direct dependencies verified for this release. CUDA/CPU local build tags are allowed.
+fastapi==0.141.1
+uvicorn[standard]==0.52.1
+sqlalchemy==2.0.43
+python-multipart==0.0.32
+python-dotenv==1.0.0
+numpy==2.2.6
+scipy==1.18.0
+nibabel==5.4.2
+torch==2.13.0
+monai==1.6.0
+reportlab==5.0.0
+packaging==25.0

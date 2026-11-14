@@ -69,29 +69,48 @@ def run(command, *, cwd=ROOT):
 
 
 def missing_packages():
-    required = ("fastapi", "uvicorn", "sqlalchemy", "python-multipart", "python-dotenv", "numpy", "scipy", "nibabel", "torch", "monai", "reportlab")
+    try:
+        from packaging.requirements import Requirement
+    except ImportError:
+        return ["packaging"]
     missing = []
-    for name in required:
+    for line in (ROOT / "backend/requirements.txt").read_text("utf-8").splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        requirement = Requirement(line)
+        if requirement.marker and not requirement.marker.evaluate():
+            continue
         try:
-            importlib.metadata.version(name)
+            installed = importlib.metadata.version(requirement.name)
         except importlib.metadata.PackageNotFoundError:
-            missing.append(name)
+            missing.append(str(requirement))
+            continue
+        if installed not in requirement.specifier:
+            missing.append(str(requirement))
     return missing
+
+
+def ensure_environment():
+    venv_python = ROOT / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    if Path(sys.prefix).resolve() != (ROOT / ".venv").resolve():
+        say("Using the project's isolated Python environment...")
+        if not venv_python.is_file():
+            run([sys.executable, "-m", "venv", str(ROOT / ".venv")])
+        raise SystemExit(subprocess.call([str(venv_python), str(Path(__file__)), *sys.argv[1:]]))
 
 
 def prepare():
     missing = missing_packages()
     if missing:
         say("[1/3] Preparing isolated Python environment (first run may take several minutes)...")
-        venv_python = ROOT / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-        if Path(sys.prefix).resolve() == (ROOT / ".venv").resolve():
-            run([sys.executable, "-m", "pip", "install", "-r", str(ROOT / "backend/requirements.txt")])
-        else:
-            if not venv_python.is_file():
-                run([sys.executable, "-m", "venv", str(ROOT / ".venv")])
-            run([str(venv_python), "-m", "pip", "install", "-r", str(ROOT / "backend/requirements.txt")])
-            # Continue under the environment just installed; preserve every CLI option.
-            raise SystemExit(subprocess.call([str(venv_python), str(Path(__file__)), *sys.argv[1:]]))
+        try:
+            importlib.metadata.version("torch")
+        except importlib.metadata.PackageNotFoundError:
+            command = [sys.executable, "-m", "pip", "install", "torch==2.13.0"]
+            if sys.platform != "darwin":
+                command.extend(["--index-url", "https://download.pytorch.org/whl/cpu"])
+            run(command)
+        run([sys.executable, "-m", "pip", "install", "-r", str(ROOT / "backend/requirements.txt")])
     else:
         say("[1/3] Python dependencies ready.")
     build_lock = lock_workspace("build")
@@ -161,8 +180,10 @@ def main():
                           "demo_available": (ROOT / "demo/manifest.json").is_file(),
                           "frontend_available": (ROOT / "frontend/dist/index.html").is_file()}, indent=2))
         return
-    if not (3, 11) <= sys.version_info[:2] <= (3, 13):
-        raise RuntimeError("Use Python 3.11, 3.12 or 3.13 for this project.")
+    if not (3, 12) <= sys.version_info[:2] <= (3, 13):
+        raise RuntimeError("Use Python 3.12 or 3.13 for this project (SciPy requires Python 3.12+).")
+    # Re-enter before acquiring locks: the parent waits until the child exits.
+    ensure_environment()
     if args.prepare_only:
         prepare()
         say("Preparation complete. Double-click START_BRAINTUMOR.cmd to open the app.")

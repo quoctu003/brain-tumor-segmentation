@@ -6,7 +6,7 @@ Nhấp đúp **`START_BRAINTUMOR.cmd`** tại gốc dự án. Trình duyệt m�
 
 Bấm **Thêm ca MRI**, tự chọn bốn chuỗi xung của một ca, tạo ca rồi bấm **Phân đoạn với AI**. Xem [hướng dẫn từng file và ba ca khác nhau](07-THEM-CA-MRI.md). Ảnh mới được kiểm tra trước khi lưu; AI chạy khi bạn bấm nút phân đoạn.
 
-Lần đầu cần Python 3.11–3.13 và Node.js 22.12+ hoặc 24. Launcher chuẩn bị dependencies nếu thiếu và build giao diện khi mã thay đổi; cần mạng nếu phải tải thư viện. Khi bản build đã sẵn và mã không đổi, không cần Node để phục vụ ứng dụng. Font giao diện có fallback hệ thống khi không có mạng.
+Lần đầu cần Python 3.12–3.13 và Node.js 22.12+ hoặc 24. Launcher chuẩn bị môi trường `.venv` riêng, cài dependencies nếu thiếu hoặc sai phiên bản và build giao diện khi mã thay đổi; cần mạng nếu phải tải thư viện. Khi bản build đã sẵn và mã không đổi, không cần Node để phục vụ ứng dụng. Font giao diện có fallback hệ thống khi không có mạng.
 
 Giữ cửa sổ launcher mở trong khi dùng. Nhấn **Ctrl+C** để dừng. Launcher chờ tối đa 30 giây trước khi dừng cưỡng bức; job chưa xong được đánh dấu thất bại vào lần khởi động sau. Ca và kết quả đã lưu được giữ lại. Chỉ dùng một API process cho cùng vùng dữ liệu; không thêm `--workers 2`.
 

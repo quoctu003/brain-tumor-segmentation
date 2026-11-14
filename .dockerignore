@@ -12,3 +12,8 @@ models
 **/.pytest_cache
 .env
 backend/.env
+.git
+notebooks
+SIC_Capstone_v2_RESUMABLE.ipynb
+**/.env.*
+!**/.env.example

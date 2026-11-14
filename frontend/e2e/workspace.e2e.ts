@@ -1,7 +1,32 @@
 import { expect, test } from "@playwright/test";
-import { resolve } from "node:path";
-import { readFileSync } from "node:fs";
-import { gunzipSync } from "node:zlib";
+import { gzipSync } from "node:zlib";
+
+// Synthetic NIfTI-1: no patient data, Drive download or trained model needed.
+function syntheticMRI(channel: number) {
+  const side = 32;
+  const buffer = Buffer.alloc(352 + side ** 3 * 4);
+  buffer.writeInt32LE(348, 0);
+  buffer.writeInt16LE(3, 40);
+  for (let axis = 0; axis < 3; axis++) {
+    buffer.writeInt16LE(side, 42 + axis * 2);
+    buffer.writeFloatLE(1, 80 + axis * 4);
+    buffer.writeFloatLE(1, 280 + axis * 20);
+  }
+  buffer.writeInt16LE(16, 70); // float32
+  buffer.writeInt16LE(32, 72);
+  buffer.writeFloatLE(352, 108);
+  buffer.writeFloatLE(1, 112);
+  buffer[123] = 2; // mm
+  buffer.writeInt16LE(1, 254); // sform: identity affine
+  buffer.write("n+1\0", 344, "ascii");
+  for (let voxel = 0; voxel < side ** 3; voxel++) {
+    buffer.writeFloatLE(
+      1 + ((voxel * 17 + channel * 13) % 199),
+      352 + voxel * 4,
+    );
+  }
+  return buffer;
+}
 
 test("manual upload accepts four MRI files and opens the study viewer", async ({
   page,
@@ -27,17 +52,13 @@ test("manual upload accepts four MRI files and opens the study viewer", async ({
     ["T2 Weighted", "t2w"],
     ["T2 FLAIR", "t2f"],
   ];
-  for (const [label, name] of inputs) {
-    const path = resolve(`../demo/${name}.nii.gz`);
-    await page.getByLabel(label, { exact: true }).setInputFiles(
-      name === "t1n"
-        ? {
-            name: "t1n.nii",
-            mimeType: "application/octet-stream",
-            buffer: gunzipSync(readFileSync(path)),
-          }
-        : path,
-    );
+  for (const [index, [label, name]] of inputs.entries()) {
+    const volume = syntheticMRI(index);
+    await page.getByLabel(label, { exact: true }).setInputFiles({
+      name: name === "t1n" ? "t1n.nii" : `${name}.nii.gz`,
+      mimeType: "application/octet-stream",
+      buffer: name === "t1n" ? volume : gzipSync(volume),
+    });
   }
   const create = page.getByRole("button", {
     name: "Tạo ca nghiên cứu",
@@ -63,9 +84,13 @@ test("manual upload accepts four MRI files and opens the study viewer", async ({
   await expect(page.locator(".viewer-message")).toHaveCount(0, {
     timeout: 60_000,
   });
-  await expect(
-    page.getByRole("button", { name: "Phân đoạn với AI", exact: true }),
-  ).toBeEnabled();
+  const model = await (await page.request.get("/api/model")).json();
+  const inference = page.getByRole("button", {
+    name: "Phân đoạn với AI",
+    exact: true,
+  });
+  if (model.ready) await expect(inference).toBeEnabled();
+  else await expect(inference).toBeDisabled();
   await expect(
     page.getByRole("link", { name: /Tải toàn bộ kết quả/ }),
   ).toHaveCount(0);

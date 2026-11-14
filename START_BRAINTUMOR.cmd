@@ -7,11 +7,17 @@ if exist ".venv\Scripts\python.exe" (
 ) else (
     where py >nul 2>nul
     if not errorlevel 1 (
-        py -3 scripts\launch.py %*
-    ) else (
-        python scripts\launch.py %*
+        for %%V in (3.13 3.12) do (
+            py -%%V -c "import sys" >nul 2>nul
+            if not errorlevel 1 (
+                py -%%V scripts\launch.py %*
+                goto launchFinished
+            )
+        )
     )
+    python scripts\launch.py %*
 )
+:launchFinished
 set "launchExit=%errorlevel%"
 if not "%launchExit%"=="0" (
     echo.
