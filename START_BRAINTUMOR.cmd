@@ -21,7 +21,7 @@ if exist ".venv\Scripts\python.exe" (
 set "launchExit=%errorlevel%"
 if not "%launchExit%"=="0" (
     echo.
-    echo Startup failed. Read the message above and docs\05-DEMO-VA-VAN-HANH.md.
+    echo Startup failed. Read the message above and README.md.
     pause
 )
 exit /b %launchExit%

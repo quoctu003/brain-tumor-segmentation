@@ -21,16 +21,16 @@ def main():
         if hashlib.file_digest(stream, "sha256").hexdigest() != metadata["weights_sha256"]:
             raise SystemExit("Model checksum mismatch; no release created.")
     files = []
-    folders = ("backend", "scripts", "docs", "demo", "notebooks", "frontend/src", "frontend/public", "frontend/e2e", "frontend/dist", ".github", ".vscode")
+    folders = ("backend", "scripts", "demo", "notebooks", "frontend/src", "frontend/public", "frontend/e2e", "frontend/dist", ".github", ".vscode")
     excluded = {"__pycache__", ".pytest_cache", "node_modules", "test-results", "playwright-report"}
     for folder in folders:
         files.extend(path for path in (ROOT / folder).rglob("*")
                      if path.is_file() and not excluded.intersection(path.relative_to(ROOT).parts)
                      and (not path.name.startswith(".env") or path.name == ".env.example")
                      and path.suffix not in (".pyc", ".db", ".sqlite", ".sqlite3", ".log", ".tmp"))
-    names = ("DEMO_BRAINTUMOR.cmd", "START_BRAINTUMOR.cmd", "START_POSTGRES_DEMO.cmd", "README.md", "CHANGELOG.md", "compose.yaml", "pytest.ini", ".gitignore", ".dockerignore", ".gitattributes", "data/mri_cases/README.md",
+    names = ("DEMO_BRAINTUMOR.cmd", "START_BRAINTUMOR.cmd", "START_POSTGRES_DEMO.cmd", "README.md", "compose.yaml", "pytest.ini", ".gitignore", ".dockerignore", ".gitattributes",
              "frontend/package.json", "frontend/package-lock.json", "frontend/index.html", "frontend/tsconfig.json", "frontend/vite.config.ts",
-             "frontend/playwright.config.ts", "frontend/Dockerfile", "frontend/nginx.conf", "models/README.md", "models/unet_v2_best.pth", "models/model_metadata.json", "models/evaluation.json")
+             "frontend/playwright.config.ts", "frontend/Dockerfile", "frontend/nginx.conf", "models/.gitkeep", "models/unet_v2_best.pth", "models/model_metadata.json", "models/evaluation.json")
     files.extend(ROOT / name for name in names if (ROOT / name).is_file())
     if destination.exists():
         raise SystemExit(f"Release already exists: {destination}. Choose a new --output path.")

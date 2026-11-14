@@ -31,6 +31,5 @@ data/mri_cases/*/
 data/mri_cases/manifest.json
 models/*.pth
 models/*.json
-!models/README.md
 models/import-*/
 *.tmp
